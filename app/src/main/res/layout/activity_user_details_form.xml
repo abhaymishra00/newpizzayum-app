@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".user_details_form">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/main">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/click_feedback"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/back_icon" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/fugaz_one"
+            android:text="@string/add_new_address"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/full_name_in_address"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="2dp"/>
+            <EditText
+                android:id="@+id/a_full_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/your_full_name"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="9dp"
+                android:textSize="16sp"
+                android:background="@drawable/login_edit_text"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/a_error_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mobile_no_in_address"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="2dp"/>
+            <EditText
+                android:id="@+id/a_mobile_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/your_mobile_no"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="9dp"
+                android:textSize="16sp"
+                android:background="@drawable/login_edit_text"
+                android:inputType="phone" />
+            <TextView
+                android:id="@+id/a_error_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/locality"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="2dp"/>
+            <EditText
+                android:id="@+id/a_locality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/your_locality_like_kakadev"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="9dp"
+                android:textSize="16sp"
+                android:background="@drawable/login_edit_text"
+                android:inputType="text"
+                android:visibility="gone"/>
+
+            <Spinner
+                android:id="@+id/select_locality"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:hint="@string/your_locality_like_kakadev"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="9dp"
+                android:textSize="16sp"
+                android:background="@drawable/login_edit_text"
+                android:inputType="text" />
+            <TextView
+                android:id="@+id/a_error_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/full_address"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="2dp"/>
+            <EditText
+                android:id="@+id/a_full_address"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:hint="@string/your_full_address_with_maximum_details_like_house_no_landmark_and_etc"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="9dp"
+                android:textSize="16sp"
+                android:background="@drawable/login_edit_text"
+                android:inputType="text|textMultiLine"
+                android:gravity="top" />
+            <TextView
+                android:id="@+id/a_error_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pin_code"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="2dp"/>
+            <EditText
+                android:id="@+id/a_pinCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/your_pin_code"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="9dp"
+                android:textSize="16sp"
+                android:maxLength="6"
+                android:background="@drawable/login_edit_text"
+                android:inputType="phone" />
+            <TextView
+                android:id="@+id/a_error_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+
+            <CheckBox
+                android:layout_marginTop="10dp"
+                android:id="@+id/a_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@string/checkBox1"/>
+            <Button
+                android:id="@+id/a_add_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="@string/add"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
+
+

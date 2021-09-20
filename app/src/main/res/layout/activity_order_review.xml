@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".OrderReview">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/main">
+
+        <ImageView
+            android:id="@+id/open_menu_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:clickable="true"
+            android:contentDescription="@string/app_name"
+            android:focusable="true"
+            android:src="@drawable/back_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/fugaz_one"
+            android:text="Order Info"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:id="@+id/order_info_main_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="Abhay Mishra"
+                    android:textColor="@color/text_black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/userMobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userName"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/text_black"
+                    android:text="8318400344" />
+
+                <TextView
+                    android:id="@+id/orderId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:text="Order Id: 1562357" />
+
+
+                <TextView
+                    android:id="@+id/orderDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/orderId"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:text="Date: 27/01/2021 at 12:30 AM" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/orderDate"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center_vertical"
+                    android:padding="3dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/orderCurrentStatusLight"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:cardElevation="50dp"
+                        app:cardBackgroundColor="@color/main"
+                        app:cardCornerRadius="30dp"/>
+
+
+                    <TextView
+                        android:id="@+id/orderCurrentStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Cancel by system"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:textColor="@color/main"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="#D5D8DC"/>
+
+
+            <LinearLayout
+                android:id="@+id/addressDetailView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Address"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp"
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/round_corner_layout_with_main_color_stoke">
+
+                    <TextView
+                        android:id="@+id/deliveryName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/main"
+                        android:text="Abhay Mishra"/>
+
+                    <TextView
+                        android:id="@+id/deliveryLocality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/light_gray"
+                        android:layout_marginVertical="2dp"
+                        android:text="Kakadev"/>
+
+                    <TextView
+                        android:id="@+id/deliveryAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/light_gray"
+                        android:text="85 Madiyapur Rajpur Kanpur Dehat 209115"/>
+
+                    <TextView
+                        android:id="@+id/userPhoneNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/light_gray"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:text="8318400344"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="#D5D8DC"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Order Items"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="10dp"
+                    />
+
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/orderItemView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="#D5D8DC"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:text="Order\nSummery"
+                android:textColor="@color/main"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+            <GridLayout
+                android:id="@+id/GridView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp"
+                android:layout_marginBottom="506dp"
+                android:columnCount="2"
+                android:rowCount="4">
+
+
+                <TextView
+                    android:id="@+id/itemId10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:text="@string/item" />
+
+                <TextView
+                    android:id="@+id/itemId20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/text_black"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/itemId11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:text="@string/sub_total" />
+
+
+                <TextView
+                    android:id="@+id/itemId21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/text_black"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/itemId13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:text="@string/tax" />
+
+
+                <TextView
+                    android:id="@+id/itemId23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/text_black"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/itemId14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:text="@string/discount" />
+
+
+                <TextView
+                    android:id="@+id/itemId24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/text_black"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:id="@+id/itemId15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:text="@string/deliveryCharge"
+                    android:visibility="gone" />
+
+
+                <TextView
+
+                    android:id="@+id/itemId25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/text_black"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:visibility="gone" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:text="@string/total"
+                    android:textColor="@color/light_gray"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/orderTotal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginStart="5dp"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="₹ 500"
+                    android:visibility="visible" />
+
+
+                <TextView
+                    android:id="@+id/orderPaymentIdText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:text="@string/payment_id" />
+
+
+                <TextView
+                    android:id="@+id/orderPaymentId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/text_black"
+                    android:text="123fdas23k4323"
+                    android:textStyle="normal" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:text="Paid" />
+
+                <TextView
+                    android:id="@+id/orderPaid"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginStart="5dp"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="Cash On Delivery"
+                    android:visibility="visible" />
+
+
+
+
+            </GridLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <Button
+                android:id="@+id/orderPlaceButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:letterSpacing="0"
+                android:text="Pay And Continue"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

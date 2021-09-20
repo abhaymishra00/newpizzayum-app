@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".otp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OTP \n Verification"
+            android:textColor="@color/main"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:fontFamily="@font/fugaz_one"
+            android:textAlignment="center"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/message_otp"
+            android:layout_marginTop="10dp"
+            />
+
+
+        <EditText
+
+            android:layout_width="218dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:autofillHints="@string/mobile_no"
+            android:background="@drawable/login_edit_text"
+            android:hint="@string/otp"
+            android:inputType="phone"
+            android:maxWidth="100dp"
+            android:padding="12dp"
+            android:textAlignment="center"
+            android:visibility="gone"/>
+
+        <com.chaos.view.PinView
+            android:id="@+id/user_entered_otp"
+            style="@style/PinWidget.PinView"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:cursorVisible="true"
+            android:inputType="number"
+            android:itemBackground="@android:color/transparent"
+            app:cursorColor="@color/black"
+            app:hideLineWhenFilled="false"
+            app:itemCount="6"
+            app:itemHeight="45dp"
+            app:itemRadius="5dp"
+            app:itemWidth="45dp"
+            app:lineColor="@color/main"
+            app:lineWidth="1dp"
+            />
+
+
+
+        <TextView
+            android:id="@+id/user_entered_otp_error"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/please_wait_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/main"
+            android:padding="3dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:visibility="visible"
+            android:orientation="horizontal">
+
+
+            <ProgressBar
+                android:id="@+id/progressBar3"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="2dp"
+                android:textColor="@color/light_gray"
+                android:text="Please wait.." />
+
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/otp_verify_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/verify"
+            android:onClick="verifyCodeFromButton"
+            android:textAllCaps="false"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
+
+
+
+
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "281757967295",
+    "project_id": "mty-npy-cus-foodapp",
+    "storage_bucket": "mty-npy-cus-foodapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281757967295:android:79651d07644a1e709a770a",
+        "android_client_info": {
+          "package_name": "com.mtechyard.newpizzayum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "281757967295-918psqthtdvhj1vujuhaen5cmnj8m6qu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mtechyard.newpizzayum",
+            "certificate_hash": "787fcf920f4107758e70ebca2c291d8f7e9c808e"
+          }
+        },
+        {
+          "client_id": "281757967295-64c6d0jbdshv0n016jhguinc06v4rkda.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN1qEauSDld_e2KbmaSM5yBNNjGoHaOVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "281757967295-64c6d0jbdshv0n016jhguinc06v4rkda.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

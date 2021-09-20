@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:id="@+id/nav_home"
+        android:icon="@drawable/home_icon"
+        android:title="@string/menuItemHome"/>
+<!--    <item android:id="@+id/nav_profile"-->
+<!--        android:icon="@drawable/profile_icon"-->
+<!--        android:title="@string/menuItemProfile"/>-->
+<!--    <item android:id="@+id/nav_wallet"-->
+<!--        android:icon="@drawable/wallet_icon"-->
+<!--        android:title="@string/menuItemWallet"/>-->
+    <item android:id="@+id/nav_order"
+        android:icon="@drawable/order_icon"
+        android:title="@string/menuItemOrder"/>
+    <item android:id="@+id/nav_address"
+        android:icon="@drawable/address_icon"
+        android:title="@string/menuItemAddress"/>
+
+
+    <item android:title="@string/menuItemHeaderSocial">
+        <menu>
+            <item android:id="@+id/nav_rateapp"
+                android:icon="@drawable/rateapp_icon"
+                android:title="@string/menuItemRateApp"/>
+            <item android:id="@+id/nav_shareapp"
+                android:icon="@drawable/shareapp_icon"
+                android:title="@string/menuItemShareApp"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/menuItemHeaderSecurity">
+        <menu>
+            <item android:id="@+id/nav_contact_us"
+                android:icon="@drawable/contact_phone_icon"
+                android:title="@string/menuItemContactUs"/>
+            <item android:id="@+id/nav_about_us"
+                android:icon="@drawable/trans_icon"
+                android:title="@string/menuItemAboutUs"/>
+
+            <item android:id="@+id/nav_login"
+                android:icon="@drawable/login_icon"
+                android:title="@string/menuItemLogin"/>
+        </menu>
+    </item>
+
+</menu>
