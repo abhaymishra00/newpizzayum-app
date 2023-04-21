@@ -8,14 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtechyard.newpizzayum.R;
-import com.mtechyard.newpizzayum.project_rec.AddressList;
-import com.mtechyard.newpizzayum.user_address;
+import com.mtechyard.newpizzayum.api.AddressList;
+import com.mtechyard.newpizzayum.AddressActivity;
 
 import java.util.List;
 
@@ -48,14 +47,14 @@ public class addressAdepter extends RecyclerView.Adapter<addressAdepter.addressA
         holder.address.setText(a.getFullAddress());
 
         holder.delete.setOnClickListener(v -> {
-            user_address.deleteAddress(position);
+            AddressActivity.deleteAddress(position);
         });
 
         if (option){
             holder.delete.setVisibility(View.GONE);
             holder.edit.setVisibility(View.GONE);
             holder.itemView.setOnClickListener(v -> {
-                user_address.setDefaultAddress(position);
+                AddressActivity.setDefaultAddress(position);
             });
         }else{
             holder.delete.setVisibility(View.VISIBLE);

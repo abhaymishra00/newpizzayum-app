@@ -39,8 +39,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -58,14 +56,15 @@ import com.google.gson.Gson;
 import com.mtechyard.newpizzayum.adapters.homeProductsAdapter;
 import com.mtechyard.newpizzayum.adapters.homeMenuAdapter;
 import com.mtechyard.newpizzayum.adapters.productToppingListAdapter;
-import com.mtechyard.newpizzayum.project_rec.GlobalFunctions;
-import com.mtechyard.newpizzayum.project_rec.TinyDB;
-import com.mtechyard.newpizzayum.project_rec.MyDialog;
-import com.mtechyard.newpizzayum.project_rec.RequestResponse;
-import com.mtechyard.newpizzayum.project_rec.EditComponents;
-import com.mtechyard.newpizzayum.project_rec.Toppings;
-import com.mtechyard.newpizzayum.project_rec.UserOrderList;
-import com.mtechyard.newpizzayum.project_rec.myLinks;
+import com.mtechyard.newpizzayum.app.GlobalFunctions;
+import com.mtechyard.newpizzayum.app.TinyDB;
+import com.mtechyard.newpizzayum.app.MyDialog;
+import com.mtechyard.newpizzayum.api.RequestResponse;
+import com.mtechyard.newpizzayum.app.EditComponents;
+import com.mtechyard.newpizzayum.api.Toppings;
+import com.mtechyard.newpizzayum.api.UserOrderList;
+import com.mtechyard.newpizzayum.api.Url;
+import com.mtechyard.newpizzayum.app_src.AppDB;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,14 +73,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class home extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private static Activity myActivity;
@@ -100,10 +98,10 @@ public class home extends AppCompatActivity {
     ImageView menu_btn;
     NavigationView nv;
     FusedLocationProviderClient fusedLocationProviderClient;
-    protected static GlobalFunctions globalFunctions;
+    public static GlobalFunctions globalFunctions;
     View hView;
     TextView UserName, UserMobile;
-    TinyDB tinyDB;
+    AppDB appDB;
     EditComponents ec;
     BottomSheetDialog bottomSheetDialog;
     public static RecyclerView recyclerView;
@@ -138,14 +136,14 @@ public class home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
 
         // init function
         myDialog = new MyDialog(this);
         globalFunctions = new GlobalFunctions(this);
-        tinyDB = new TinyDB(this);
-        ec = new EditComponents(home.this);
+        appDB = new AppDB(this);
+        ec = new EditComponents(HomeActivity.this);
         gson = new Gson();
 
         thisActivity = this;
@@ -154,7 +152,7 @@ public class home extends AppCompatActivity {
         ProductJsonArray = new JSONArray();
 
         context = getApplicationContext();
-        myActivity = home.this;
+        myActivity = HomeActivity.this;
 
         spinner = findViewById(R.id.select_locality);
 
@@ -163,12 +161,11 @@ public class home extends AppCompatActivity {
         homeMenuRecyclerView.setAdapter(new homeMenuAdapter());
 
 
-        //
-        bottomSheetDialog = new BottomSheetDialog(home.this, R.style.bottom_sheet_with_round_corner_theme);
+        bottomSheetDialog = new BottomSheetDialog(HomeActivity.this, R.style.bottom_sheet_with_round_corner_theme);
 
-        if (tinyDB.getBucketItemCount() > 0) {
+        if (appDB.getBucketItemCount() > 0) {
             ec.setLinearLayoutVisibility(R.id.bucket_count_dot, View.VISIBLE);
-            ec.setText(R.id.bucket_count, String.valueOf(tinyDB.getBucketItemCount()));
+            ec.setText(R.id.bucket_count, String.valueOf(appDB.getBucketItemCount()));
         } else {
             ec.setLinearLayoutVisibility(R.id.bucket_count_dot, View.GONE);
         }
@@ -189,42 +186,42 @@ public class home extends AppCompatActivity {
 
 
         nv = findViewById(R.id.home_nav_bar);
-        hView = nv.getHeaderView(0);
+            hView = nv.getHeaderView(0);
 
         UserName = (TextView) hView.findViewById(R.id.nav_user_name_text);
         UserMobile = (TextView) hView.findViewById(R.id.nav_user_mobile_text);
 
-        UserName.setText(tinyDB.getUserName());
-        UserMobile.setText(tinyDB.getUserMobileNo());
+        UserName.setText(appDB.getUserName());
+        UserMobile.setText(appDB.getUserMobileNo());
 
         nv.setNavigationItemSelectedListener(item -> {
 
             switch (item.getItemId()) {
                 case R.id.nav_home:
-                    //Toast.makeText(home.this, "Home Clicked", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "Home Clicked", Toast.LENGTH_SHORT).show();
                     break;
 
 //                case R.id.nav_profile:
-//                    startActivity(new Intent(home.this,user_profile.class));
-//                    Toast.makeText(home.this, "Profile Clicked", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(HomeActivity.this,ProfileActivity.class));
+//                    Toast.makeText(HomeActivity.this, "Profile Clicked", Toast.LENGTH_SHORT).show();
 //                    break;
 //
 //                case R.id.nav_wallet:
-//                    startActivity(new Intent(home.this,user_profile.class));
-//                    Toast.makeText(home.this, "Wallet Clicked", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(HomeActivity.this,ProfileActivity.class));
+//                    Toast.makeText(HomeActivity.this, "Wallet Clicked", Toast.LENGTH_SHORT).show();
 //                    break;
 
                 case R.id.nav_order:
-                    startActivity(new Intent(home.this, user_order.class));
-                    //Toast.makeText(home.this, "Order Clicked", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(HomeActivity.this, UserOrderActivity.class));
+                    //Toast.makeText(HomeActivity.this, "Order Clicked", Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.nav_address:
-                    startActivity(new Intent(home.this, user_address.class));
-                    ///Toast.makeText(home.this, "Address Clicked", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(HomeActivity.this, AddressActivity.class));
+                    ///Toast.makeText(HomeActivity.this, "Address Clicked", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.nav_rateapp:
-                    //Toast.makeText(home.this, "Rate App Clicked", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "Rate App Clicked", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.nav_shareapp:
                     Intent sendIntent = new Intent();
@@ -247,10 +244,10 @@ public class home extends AppCompatActivity {
                     break;
 
                 case R.id.nav_login:
-                    //Toast.makeText(home.this, "Log-in Clicked", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "Log-in Clicked", Toast.LENGTH_SHORT).show();
                     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                     firebaseAuth.signOut();
-                    tinyDB.ClearDB1();
+                    appDB.ClearDB1();
                     finish();
                     break;
 
@@ -314,7 +311,7 @@ public class home extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 myDialog.dismissLoadingDialog(1);
-                ActivityCompat.requestPermissions(home.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             } else {
                 getLocationParams();
             }
@@ -370,7 +367,7 @@ public class home extends AppCompatActivity {
 
                                     getUserAddress(lat, longt);
                                 } else {
-                                    Toast.makeText(home.this, "Something in getting location", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(HomeActivity.this, "Something in getting location", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -390,16 +387,10 @@ public class home extends AppCompatActivity {
     public void getUserAddress(double lat, double longt) {
 
         try {
-            Geocoder geocoder = new Geocoder(home.this, Locale.getDefault());
+            Geocoder geocoder = new Geocoder(HomeActivity.this, Locale.getDefault());
             List<Address> address = geocoder.getFromLocation(lat, longt, 1);
-
             Address ADDRESS = address.get(0);
-
-
-            TinyDB tinyDB = new TinyDB(home.this);
-
-            tinyDB.saveUserLocality(ADDRESS.getLocality());
-
+            appDB.saveUserLocality(ADDRESS.getLocality());
             checkUserLocationAvailable(ADDRESS.getLocality());
 
         } catch (IOException e) {
@@ -416,7 +407,7 @@ public class home extends AppCompatActivity {
 
         ConstraintLayout l = findViewById(R.id.noService);
 
-        StringRequest localityCheckRequest = new StringRequest(Request.Method.POST, myLinks.AREA_CHECK, response -> {
+        StringRequest localityCheckRequest = new StringRequest(Request.Method.POST, Url.AREA_CHECK, response -> {
 
             Gson gson = new Gson();
             RequestResponse data = gson.fromJson(response, RequestResponse.class);
@@ -451,7 +442,7 @@ public class home extends AppCompatActivity {
 
         };
 
-        RequestQueue loadUiRequest = Volley.newRequestQueue(home.this);
+        RequestQueue loadUiRequest = Volley.newRequestQueue(HomeActivity.this);
         loadUiRequest.add(localityCheckRequest);
 
         myDialog.dismissLoadingDialog(1);
@@ -600,7 +591,7 @@ public class home extends AppCompatActivity {
     public static void changeBucketCountInUi() {
 
         TextView v = myActivity.findViewById(R.id.bucket_count);
-        int c = new TinyDB(myActivity.getApplicationContext()).getBucketItemCount();
+        int c = new AppDB(myActivity.getApplicationContext()).getBucketItemCount();
         if (c == 0) {
             new EditComponents(myActivity).setLinearLayoutVisibility(R.id.bucket_count_dot, View.GONE);
         } else {
@@ -714,9 +705,9 @@ public class home extends AppCompatActivity {
         view.findViewById(R.id.addProductInCardBtn).setOnClickListener(v -> {
 
             if (productToppingList.size() > 0) {
-                new TinyDB(myActivity).addInBucket(new UserOrderList(productName, productImage, productSize, 1, productSizeRate, productTax, productId, productToppingList, productToppingTotal));
+                new AppDB(myActivity).addInBucket(new UserOrderList(productName, productImage, productSize, 1, productSizeRate, productTax, productId, productToppingList, productToppingTotal));
             } else {
-                new TinyDB(myActivity).addInBucket(new UserOrderList(productName, productImage, productSize, 1, productSizeRate, productTax, productId));
+                new AppDB(myActivity).addInBucket(new UserOrderList(productName, productImage, productSize, 1, productSizeRate, productTax, productId));
             }
             Toast.makeText(myActivity, "Item Added To Your Cart", Toast.LENGTH_SHORT).show();
             changeBucketCountInUi();
@@ -814,7 +805,7 @@ public class home extends AppCompatActivity {
         List<Toppings> toppingsList = new ArrayList<>();
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, myLinks.TOPPING_LINKS, response -> {
+        StringRequest request = new StringRequest(Request.Method.POST, Url.TOPPING_LINKS, response -> {
             Gson gson = new Gson();
             Toppings[] toppings = gson.fromJson(response, Toppings[].class);
 
@@ -849,7 +840,7 @@ public class home extends AppCompatActivity {
 
     // OPENING CART
     public void openMyCart(View view) {
-        startActivity(new Intent(home.this, user_cart.class));
+        startActivity(new Intent(HomeActivity.this, CartActivity.class));
     }
 
 

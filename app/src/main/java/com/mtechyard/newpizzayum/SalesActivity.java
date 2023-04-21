@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-public class offers_and_discounts extends AppCompatActivity {
+public class SalesActivity extends AppCompatActivity {
     private int openCode;
     private int totalAmount;
     private int backResult;
@@ -50,7 +49,7 @@ public class offers_and_discounts extends AppCompatActivity {
             setResult(RESULT_OK, new Intent().putExtra("discountCoupon", backResultCoupon));
             finish();
         } else {
-            startActivity(new Intent(this, home.class));
+            startActivity(new Intent(this, HomeActivity.class));
         }
     }
 

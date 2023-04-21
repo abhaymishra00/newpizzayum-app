@@ -1,8 +1,9 @@
-package com.mtechyard.newpizzayum.project_rec;
+package com.mtechyard.newpizzayum.api;
 
-public class myLinks {
+public class Url {
     private static final String domain = "https://mtechyard.com/";
     private static final String dir1 = "newpizzayum-app/";
+
     public static final String USER_CHECK = domain + dir1 + "user-check.php";
     public static final String AREA_CHECK = domain + dir1 + "area-check.php";
     public static final String GET_USERS_ORDERS = domain + dir1 + "userOrders.php";

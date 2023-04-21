@@ -18,14 +18,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.mtechyard.newpizzayum.project_rec.GlobalFunctions;
-import com.mtechyard.newpizzayum.project_rec.TinyDB;
-import com.mtechyard.newpizzayum.project_rec.MyDialog;
+import com.mtechyard.newpizzayum.app.GlobalFunctions;
+import com.mtechyard.newpizzayum.app.TinyDB;
+import com.mtechyard.newpizzayum.app.MyDialog;
+import com.mtechyard.newpizzayum.app_src.AppDB;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class otp extends AppCompatActivity {
+public class OtpActivity extends AppCompatActivity {
 
 
     private FirebaseAuth mAuth;
@@ -49,7 +50,7 @@ public class otp extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
 
 //        Button button = findViewById(R.id.otp_verify_btn);
-//        button.setOnClickListener(v -> startActivity(new Intent(otp.this,home.class)));
+//        button.setOnClickListener(v -> startActivity(new Intent(OtpActivity.this,HomeActivity.class)));
 
 
         // Initialize Firebase Auth
@@ -115,13 +116,13 @@ public class otp extends AppCompatActivity {
 
         if (phoneNumber != null && !phoneNumber.isEmpty()) {
 
-            Log.i("sendOTP", "sending otp on " + phoneNumber);
+            Log.i("sendOTP", "sending OtpActivity on " + phoneNumber);
 
             PhoneAuthOptions options =
                     PhoneAuthOptions.newBuilder(mAuth)
                             .setPhoneNumber("+91" + phoneNumber)       // Phone number to verify
                             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                            .setActivity(otp.this)                 // Activity (for callback binding)
+                            .setActivity(OtpActivity.this)                 // Activity (for callback binding)
                             .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
                             .build();
             PhoneAuthProvider.verifyPhoneNumber(options);
@@ -148,10 +149,10 @@ public class otp extends AppCompatActivity {
             if (Objects.equals(credential.getSmsCode(), code)) {
                 signInWithPhoneAuthCredential(credential);
             } else {
-                globalFunctions.showError(R.id.user_entered_otp_error, "You entered a wrong otp");
+                globalFunctions.showError(R.id.user_entered_otp_error, "You entered a wrong OtpActivity");
             }
         } else {
-            Log.e("VerifyOTP-error", "For otp verification need a otp and verification code");
+            Log.e("VerifyOTP-error", "For OtpActivity verification need a OtpActivity and verification code");
         }
 
     }
@@ -160,7 +161,7 @@ public class otp extends AppCompatActivity {
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
 
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(otp.this, task -> {
+                .addOnCompleteListener(OtpActivity.this, task -> {
                     if (task.isSuccessful()) {
                         nextScreen();
                     } else {
@@ -189,10 +190,10 @@ public class otp extends AppCompatActivity {
 
     public void nextScreen() {
 
-        TinyDB tinyDB = new TinyDB(this);
-        tinyDB.saveUserMobileNo(phoneNumber);
-        tinyDB.saveUserName(userName);
-        startActivity(new Intent(otp.this,home.class));
+        AppDB appDB = new AppDB(this);
+        appDB.saveUserMobileNo(phoneNumber);
+        appDB.saveUserName(userName);
+        startActivity(new Intent(OtpActivity.this, HomeActivity.class));
         finish();
     }
 

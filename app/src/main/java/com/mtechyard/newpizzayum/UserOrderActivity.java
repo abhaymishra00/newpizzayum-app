@@ -8,28 +8,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mtechyard.newpizzayum.adapters.ordersAdapter;
-import com.mtechyard.newpizzayum.project_rec.MyDialog;
-import com.mtechyard.newpizzayum.project_rec.TinyDB;
-import com.mtechyard.newpizzayum.project_rec.UserOrderData;
-import com.mtechyard.newpizzayum.project_rec.myLinks;
-
+import com.mtechyard.newpizzayum.api.Url;
+import com.mtechyard.newpizzayum.api.UserOrderData;
+import com.mtechyard.newpizzayum.app.MyDialog;
+import com.mtechyard.newpizzayum.app_src.AppDB;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class user_order extends AppCompatActivity{
+public class UserOrderActivity extends AppCompatActivity{
 
     List<UserOrderData> dataList;
     RecyclerView recyclerView;
@@ -60,13 +57,13 @@ public class user_order extends AppCompatActivity{
 
         ImageView bBtn = findViewById(R.id.backButton);
         bBtn.setOnClickListener(v -> {
-            startActivity(new Intent(this, home.class));
+            startActivity(new Intent(this, HomeActivity.class));
 
         });
 
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, myLinks.GET_USERS_ORDERS, response -> {
+        StringRequest request = new StringRequest(Request.Method.POST, Url.GET_USERS_ORDERS, response -> {
            // Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
             if ((response.length() > 0)) {
 
@@ -91,7 +88,7 @@ public class user_order extends AppCompatActivity{
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("primaryMobile", new TinyDB(user_order.this).getUserMobileNo());
+                params.put("primaryMobile", new AppDB(UserOrderActivity.this).getUserMobileNo());
                 return params;
             }
 
@@ -103,12 +100,12 @@ public class user_order extends AppCompatActivity{
 
 
     public void openHome(View view) {
-        startActivity(new Intent(this,home.class));
+        startActivity(new Intent(this, HomeActivity.class));
     }
 
 
     public static void showPayment (String OrderId,String Payment){
-        Intent intent = new Intent(myActivity,order_detail.class);
+        Intent intent = new Intent(myActivity, OrderDetailsActivity.class);
         intent.putExtra("orderId",OrderId);
         intent.putExtra("payingPayment",Payment);
         myActivity.startActivity(intent);

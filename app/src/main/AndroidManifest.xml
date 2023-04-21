@@ -16,36 +16,31 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.NewPizzaYum"
         tools:targetApi="m">
-        <activity android:name=".OrderReview"></activity>
-        <activity android:name=".offers_and_discounts" />
-        <activity android:name=".order_detail" />
-        <activity
-            android:name=".user_cart"
-            android:label="@string/title_activity_user_cart"
-            android:theme="@style/Theme.NewPizzaYum.NoActionBar" />
-        <activity android:name=".user_address" />
-        <activity android:name=".user_order" />
-        <activity android:name=".user_profile" />
-        <activity
-            android:name=".user_details_form"
-            android:label="@string/title_activity_user_details_form"
-            android:theme="@style/Theme.NewPizzaYum.NoActionBar" />
-        <activity android:name=".otp" />
-        <activity android:name=".user_auth" />
-        <activity android:name=".home" />
+
+        <activity android:name=".OrderReview" />
+        <activity android:name=".SalesActivity" />
+        <activity android:name=".OrderDetailsActivity" />
+        <activity android:name=".CartActivity" />
+        <activity android:name=".AddressActivity" />
+        <activity android:name=".UserOrderActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".UserDetailsActivity"/>
+        <activity android:name=".OtpActivity" />
+        <activity android:name=".UserAuthActivity" />
+        <activity android:name=".HomeActivity" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="com.razorpay"
-            android:value="rzp_test_RuC9zsLH3fQ27s"></meta-data>
+            android:value="rzp_test_RuC9zsLH3fQ27s" />
     </application>
 
 </manifest>

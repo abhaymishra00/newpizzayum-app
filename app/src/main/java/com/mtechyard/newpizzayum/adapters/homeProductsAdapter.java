@@ -14,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtechyard.newpizzayum.R;
-import com.mtechyard.newpizzayum.home;
-import com.mtechyard.newpizzayum.project_rec.RequestResponse;
+import com.mtechyard.newpizzayum.HomeActivity;
+import com.mtechyard.newpizzayum.api.RequestResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -63,9 +63,9 @@ public class homeProductsAdapter extends RecyclerView.Adapter<homeProductsAdapte
         
         holder.add.setOnClickListener(v -> {
 
-            home.changeBucketCountInUi();
+            HomeActivity.changeBucketCountInUi();
             if (sData.getCustomizable()){
-                home.toggleBottomSheetDialogForProductEdit(sData.getProductId(),
+                HomeActivity.toggleBottomSheetDialogForProductEdit(sData.getProductId(),
                         sData.getProductName(),
                         sData.getProductImage(),
                         sData.getsPrice(),
@@ -74,7 +74,7 @@ public class homeProductsAdapter extends RecyclerView.Adapter<homeProductsAdapte
                         sData.getlPrice(),
                         sData.getProductTax());
             }else{
-                home.toggleBottomSheetDialogForProductEdit(sData.getProductId()
+                HomeActivity.toggleBottomSheetDialogForProductEdit(sData.getProductId()
                         ,sData.getProductName(),
                         sData.getProductImage(),
                         sData.getDisplayPrice(),

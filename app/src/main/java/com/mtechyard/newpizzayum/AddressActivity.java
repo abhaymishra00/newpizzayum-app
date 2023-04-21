@@ -1,25 +1,23 @@
 package com.mtechyard.newpizzayum;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.mtechyard.newpizzayum.adapters.addressAdepter;
-import com.mtechyard.newpizzayum.project_rec.AddressList;
-import com.mtechyard.newpizzayum.project_rec.TinyDB;
+import com.mtechyard.newpizzayum.api.AddressList;
+import com.mtechyard.newpizzayum.app_src.AppDB;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class user_address extends AppCompatActivity {
+public class AddressActivity extends AppCompatActivity {
 
     private static RecyclerView recyclerView;
     @SuppressLint("StaticFieldLeak")
@@ -27,17 +25,17 @@ public class user_address extends AppCompatActivity {
     private static boolean option;
 
     public static void deleteAddress(int position) {
-        List<AddressList> list  = new TinyDB(thisActivity).getAddressList();
+        List<AddressList> list  = new AppDB(thisActivity).getAddressList();
         list.remove(position);
         Gson gson = new Gson();
         String newAddressList = gson.toJson(list, ArrayList.class);
-        new TinyDB(thisActivity).StoreString("UserAddressList", newAddressList);
+        new AppDB(thisActivity).save("UserAddressList", newAddressList);
         recyclerView.setAdapter(new addressAdepter(thisActivity,list, option));
 
     }
 
     public static void setDefaultAddress(int position) {
-        new TinyDB(thisActivity).changeDefaultAddress(position);
+        new AppDB(thisActivity).changeDefaultAddress(position);
         if (thisActivity.getIntent().getIntExtra("requestCode",-1) == 1){
 
             Intent resultIntent = new Intent();
@@ -65,7 +63,7 @@ public class user_address extends AppCompatActivity {
                 thisActivity.finish();
 
             }else{
-                startActivity(new Intent(user_address.this,home.class));
+                startActivity(new Intent(AddressActivity.this, HomeActivity.class));
             }
 
         });
@@ -74,11 +72,11 @@ public class user_address extends AppCompatActivity {
         findViewById(R.id.changeAddress).setOnClickListener(v->{
 
             if (thisActivity.getIntent().getIntExtra("requestCode",-1) == 1){
-                Intent intent = new Intent(this, user_details_form.class);
+                Intent intent = new Intent(this, UserDetailsActivity.class);
                 intent.putExtra("requestCode",2);
                 startActivityForResult(intent, 2);
             }else{
-                startActivity(new Intent(user_address.this,user_details_form.class));
+                startActivity(new Intent(AddressActivity.this, UserDetailsActivity.class));
             }
         });
 
@@ -86,7 +84,7 @@ public class user_address extends AppCompatActivity {
         if (thisActivity.getIntent().getIntExtra("requestCode",-1) == 1){
             option = true;
         }
-        recyclerView.setAdapter(new addressAdepter(this,new TinyDB(this).getAddressList(), option));
+        recyclerView.setAdapter(new addressAdepter(this,new AppDB(this).getAddressList(), option));
     }
 
     @Override
@@ -94,7 +92,7 @@ public class user_address extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
-                recyclerView.setAdapter(new addressAdepter(this,new TinyDB(this).getAddressList(), option));
+                recyclerView.setAdapter(new addressAdepter(this,new AppDB(this).getAddressList(), option));
             }
         }
     }
@@ -108,7 +106,7 @@ public class user_address extends AppCompatActivity {
             thisActivity.finish();
 
         }else{
-            startActivity(new Intent(user_address.this,home.class));
+            startActivity(new Intent(AddressActivity.this, HomeActivity.class));
         }
     }
 }

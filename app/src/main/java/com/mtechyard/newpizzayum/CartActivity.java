@@ -7,23 +7,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtechyard.newpizzayum.adapters.userCartAdapter;
-import com.mtechyard.newpizzayum.project_rec.TinyDB;
-import com.mtechyard.newpizzayum.project_rec.UserOrderList;
+import com.mtechyard.newpizzayum.app.TinyDB;
+import com.mtechyard.newpizzayum.api.UserOrderList;
+import com.mtechyard.newpizzayum.app_src.AppDB;
 
 import java.util.List;
 
-public class user_cart extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity {
 
 
     @SuppressLint("StaticFieldLeak")
-    private static TinyDB tinyDB;
+    private static AppDB appDB;
     private static RecyclerView recyclerView;
     @SuppressLint("StaticFieldLeak")
     private static Activity myActivity;
@@ -40,13 +40,13 @@ public class user_cart extends AppCompatActivity {
         bBtn.setOnClickListener(v -> {
             finish();
         });
-        tinyDB = new TinyDB(this);
-        myActivity = user_cart.this;
+        appDB = new AppDB(this);
+        myActivity = CartActivity.this;
 
         ll = findViewById(R.id.product_list);
         cc = findViewById(R.id.noItemInCart);
 
-        List<UserOrderList> list = tinyDB.getOrderList();
+        List<UserOrderList> list = appDB.getOrderList();
         if (list.size()>0){
             ll.setVisibility(View.VISIBLE);
             cc.setVisibility(View.GONE);
@@ -57,10 +57,10 @@ public class user_cart extends AppCompatActivity {
 
 
         recyclerView = findViewById(R.id.cart_product_recyclerView);
-        recyclerView.setAdapter(new userCartAdapter(user_cart.this,tinyDB.getOrderList()));
+        recyclerView.setAdapter(new userCartAdapter(CartActivity.this, appDB.getOrderList()));
 
         findViewById(R.id.cart_pBtn).setOnClickListener(v -> {
-            Intent intent = new Intent(user_cart.this,order_detail.class);
+            Intent intent = new Intent(CartActivity.this, OrderDetailsActivity.class);
             startActivity(intent);
         });
 
@@ -72,12 +72,12 @@ public class user_cart extends AppCompatActivity {
 
     public static void addQuantity(int position){
 
-        tinyDB.addQuantity(position);
-        List<UserOrderList> list = tinyDB.getOrderList();
+        appDB.addQuantity(position);
+        List<UserOrderList> list = appDB.getOrderList();
         if (list.size()>0){
             ll.setVisibility(View.VISIBLE);
             cc.setVisibility(View.GONE);
-            recyclerView.setAdapter(new userCartAdapter(myActivity,tinyDB.getOrderList()));
+            recyclerView.setAdapter(new userCartAdapter(myActivity, appDB.getOrderList()));
         }else{
             ll.setVisibility(View.GONE);
             cc.setVisibility(View.VISIBLE);
@@ -86,12 +86,12 @@ public class user_cart extends AppCompatActivity {
     }
     public static void removeQuantity(int position){
 
-        tinyDB.removeQuantity(position);
-        List<UserOrderList> list = tinyDB.getOrderList();
+        appDB.removeQuantity(position);
+        List<UserOrderList> list = appDB.getOrderList();
         if (list.size()>0){
             ll.setVisibility(View.VISIBLE);
             cc.setVisibility(View.GONE);
-            recyclerView.setAdapter(new userCartAdapter(myActivity,tinyDB.getOrderList()));
+            recyclerView.setAdapter(new userCartAdapter(myActivity, appDB.getOrderList()));
         }else{
             ll.setVisibility(View.GONE);
             cc.setVisibility(View.VISIBLE);

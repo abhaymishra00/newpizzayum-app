@@ -7,28 +7,18 @@ import android.os.Bundle;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-import com.mtechyard.newpizzayum.project_rec.AddressList;
-import com.mtechyard.newpizzayum.project_rec.GlobalFunctions;
-import com.mtechyard.newpizzayum.project_rec.MyDialog;
-import com.mtechyard.newpizzayum.project_rec.RequestResponse;
-import com.mtechyard.newpizzayum.project_rec.TinyDB;
-import com.mtechyard.newpizzayum.project_rec.myLinks;
-
+import com.mtechyard.newpizzayum.api.AddressList;
+import com.mtechyard.newpizzayum.app.GlobalFunctions;
+import com.mtechyard.newpizzayum.app.MyDialog;
+import com.mtechyard.newpizzayum.api.RequestResponse;
+import com.mtechyard.newpizzayum.app_src.AppDB;
+import com.mtechyard.newpizzayum.api.Url;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,12 +29,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class user_details_form extends AppCompatActivity {
+public class UserDetailsActivity extends AppCompatActivity {
     EditText name, mobile, locality, address, pinCode;
     TextView error_1, error_2, error_3, error_4, error_5;
     CheckBox defaultAddress;
@@ -73,7 +61,7 @@ public class user_details_form extends AppCompatActivity {
 
             } else {
                 dialog.dismissLoadingDialog(1);
-                startActivity(new Intent(this, user_address.class));
+                startActivity(new Intent(this, AddressActivity.class));
             }
 
         });
@@ -131,7 +119,7 @@ public class user_details_form extends AppCompatActivity {
         error_4 = findViewById(R.id.a_error_4);
         error_5 = findViewById(R.id.a_error_5);
 
-        gf = new GlobalFunctions(user_details_form.this);
+        gf = new GlobalFunctions(UserDetailsActivity.this);
 
         findViewById(R.id.a_add_btn).setOnClickListener(v -> {
 
@@ -185,8 +173,8 @@ public class user_details_form extends AppCompatActivity {
         dialog.showLoadingDialog();
 
         if (defaultAddress.isChecked()) {
-            new TinyDB(this).removeDefaultAddress();
-            new TinyDB(this).addNewAddress(new AddressList(
+            new AppDB(this).removeDefaultAddress();
+            new AppDB(this).addNewAddress(new AddressList(
                     name_v,
                     mobile_v,
                     pinCode_v,
@@ -195,7 +183,7 @@ public class user_details_form extends AppCompatActivity {
                     true
             ));
         } else {
-            new TinyDB(this).addNewAddress(new AddressList(
+            new AppDB(this).addNewAddress(new AddressList(
                     name_v,
                     mobile_v,
                     pinCode_v,
@@ -218,14 +206,14 @@ public class user_details_form extends AppCompatActivity {
 
             } else {
                 dialog.dismissLoadingDialog(1);
-                startActivity(new Intent(this, user_address.class));
+                startActivity(new Intent(this, AddressActivity.class));
             }
         }, 1000);
     }
 
 
     private void checkLocality(String UserLocality) {
-        StringRequest localityCheckRequest = new StringRequest(Request.Method.POST, myLinks.AREA_CHECK, new Response.Listener<String>() {
+        StringRequest localityCheckRequest = new StringRequest(Request.Method.POST, Url.AREA_CHECK, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -253,7 +241,7 @@ public class user_details_form extends AppCompatActivity {
 
         };
 
-        RequestQueue loadUiRequest = Volley.newRequestQueue(user_details_form.this);
+        RequestQueue loadUiRequest = Volley.newRequestQueue(UserDetailsActivity.this);
         loadUiRequest.add(localityCheckRequest);
 
     }
@@ -292,7 +280,7 @@ public class user_details_form extends AppCompatActivity {
 
         } else {
             dialog.dismissLoadingDialog(1);
-            startActivity(new Intent(this, user_address.class));
+            startActivity(new Intent(this, AddressActivity.class));
         }
     }
 

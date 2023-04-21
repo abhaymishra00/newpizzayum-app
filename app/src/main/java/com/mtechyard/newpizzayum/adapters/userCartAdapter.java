@@ -7,19 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.L;
 import com.mtechyard.newpizzayum.R;
-import com.mtechyard.newpizzayum.project_rec.Toppings;
-import com.mtechyard.newpizzayum.project_rec.UserOrderList;
-import com.mtechyard.newpizzayum.user_cart;
+import com.mtechyard.newpizzayum.api.Toppings;
+import com.mtechyard.newpizzayum.api.UserOrderList;
+import com.mtechyard.newpizzayum.CartActivity;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -87,11 +83,11 @@ public class userCartAdapter extends RecyclerView.Adapter<userCartAdapter.userCa
                 .into(holder.pi);
 
         holder.pr.setOnClickListener(v -> {
-            user_cart.removeQuantity(position);
+            CartActivity.removeQuantity(position);
         });
 
         holder.pa.setOnClickListener(v -> {
-            user_cart.addQuantity(position);
+            CartActivity.addQuantity(position);
         });
         holder.pq.setText(String.valueOf(d.getQty()));
         if (d.getQty()>1){

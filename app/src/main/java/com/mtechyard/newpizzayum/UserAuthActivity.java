@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mtechyard.newpizzayum.project_rec.GlobalFunctions;
+import com.mtechyard.newpizzayum.app.GlobalFunctions;
 
-public class user_auth extends AppCompatActivity {
+public class UserAuthActivity extends AppCompatActivity {
 
     private static final String TAG = "firebase-auth";
     Button login;
@@ -46,7 +46,7 @@ public class user_auth extends AppCompatActivity {
 
                 if(globalFunction.PHONE_CHECK(user_input_number.getEditableText().toString(),R.id.user_mobile_number_input_error)){
                    if (!user_input_name.getEditableText().toString().isEmpty()){
-                       Intent intent = new Intent(this,otp.class);
+                       Intent intent = new Intent(this, OtpActivity.class);
                        intent.putExtra("number",user_input_number.getEditableText().toString());
                        intent.putExtra("name",user_input_name.getEditableText().toString());
                        startActivity(intent);

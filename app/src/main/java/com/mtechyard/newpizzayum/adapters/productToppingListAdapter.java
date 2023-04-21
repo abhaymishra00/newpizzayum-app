@@ -11,9 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mtechyard.newpizzayum.HomeActivity;
 import com.mtechyard.newpizzayum.R;
-import com.mtechyard.newpizzayum.home;
-import com.mtechyard.newpizzayum.project_rec.Toppings;
+import com.mtechyard.newpizzayum.api.Toppings;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class productToppingListAdapter extends RecyclerView.Adapter<productToppi
         holder.textView1.setText("₹ "+t.getToppingPrice());
         holder.textView.setText(t.getToppingName());
         holder.textView.setOnClickListener(v -> {
-            if (home.toggleTopping(t.getToppingName(),t.getToppingPrice())){
+            if (HomeActivity.toggleTopping(t.getToppingName(),t.getToppingPrice())){
                 holder.bl.setBackground(myContext.getResources().getDrawable(R.drawable.round_corner_layout_with_main));
                 holder.textView.setTextColor(myContext.getResources().getColor(R.color.white));
                 holder.textView1.setTextColor(myContext.getResources().getColor(R.color.white));

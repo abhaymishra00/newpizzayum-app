@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="mTechYrad.com"
+            android:text="mtechyard"
             android:textColor="@color/main"
             android:textSize="20sp"
             android:textStyle="bold" />

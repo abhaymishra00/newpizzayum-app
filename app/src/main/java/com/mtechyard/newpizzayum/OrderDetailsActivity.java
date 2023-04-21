@@ -10,54 +10,38 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.mtechyard.newpizzayum.project_rec.AddressList;
-import com.mtechyard.newpizzayum.project_rec.EditComponents;
-import com.mtechyard.newpizzayum.project_rec.GlobalFunctions;
-import com.mtechyard.newpizzayum.project_rec.MyDialog;
-import com.mtechyard.newpizzayum.project_rec.RequestResponse;
-import com.mtechyard.newpizzayum.project_rec.TinyDB;
-import com.mtechyard.newpizzayum.project_rec.UserOrderList;
-import com.mtechyard.newpizzayum.project_rec.myLinks;
-import com.paytm.pgsdk.PaytmOrder;
-import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
-import com.paytm.pgsdk.TransactionManager;
-import com.razorpay.Checkout;
-import com.razorpay.PaymentResultListener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.mtechyard.newpizzayum.api.AddressList;
+import com.mtechyard.newpizzayum.app.EditComponents;
+import com.mtechyard.newpizzayum.app.GlobalFunctions;
+import com.mtechyard.newpizzayum.app.MyDialog;
+import com.mtechyard.newpizzayum.api.RequestResponse;
+import com.mtechyard.newpizzayum.api.Url;
+import com.mtechyard.newpizzayum.app_src.AppDB;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class order_detail extends AppCompatActivity {
+public class OrderDetailsActivity extends AppCompatActivity {
 
     TextView itemCount, subTotal, gst, discount, deliveryCharge, gTotal;
     @SuppressLint("StaticFieldLeak")
-    private static TinyDB db;
+    private static AppDB appDB;
     private int gDiscount;
     String iCount, sTotal, Gst, Discount, dCharge, total;
     private String orderFor;
@@ -85,7 +69,7 @@ public class order_detail extends AppCompatActivity {
 
         
         //INIT
-        db = new TinyDB(this);
+        appDB = new AppDB(this);
         gDiscount = 0;
         Discount = "0";
         thisActivity = this;
@@ -106,10 +90,10 @@ public class order_detail extends AppCompatActivity {
 
         }else{
 
-        iCount = String.valueOf(db.getBucketItemCount());
-        sTotal = String.valueOf(db.getBucketTotal());
-        Gst = String.valueOf(db.getBucketTax());
-        total = String.valueOf((db.getBucketTotal() + db.getBucketTax() - gDiscount));
+        iCount = String.valueOf(appDB.getBucketItemCount());
+        sTotal = String.valueOf(appDB.getBucketTotal());
+        Gst = String.valueOf(appDB.getBucketTax());
+        total = String.valueOf((appDB.getBucketTotal() + appDB.getBucketTax() - gDiscount));
 
 
         itemCount = findViewById(R.id.itemId20);
@@ -124,7 +108,7 @@ public class order_detail extends AppCompatActivity {
             if (b.getText().equals("Add")) {
                 addNewAddress(v);
             } else {
-                Intent intent = new Intent(this, user_address.class);
+                Intent intent = new Intent(this, AddressActivity.class);
                 intent.putExtra("requestCode", 1);
                 startActivityForResult(intent, 2);
             }
@@ -133,8 +117,8 @@ public class order_detail extends AppCompatActivity {
 
         // DO NOT REMOVE THIS CODE FROM HERE
         findViewById(R.id.addDiscountText).setOnClickListener(v -> {
-            Intent intent = new Intent(this, offers_and_discounts.class);
-            intent.putExtra("totalAmount", db.getBucketTotal());
+            Intent intent = new Intent(this, SalesActivity.class);
+            intent.putExtra("totalAmount", appDB.getBucketTotal());
             startActivityForResult(intent, 1);
         });
 
@@ -183,7 +167,7 @@ public class order_detail extends AppCompatActivity {
             if (!orderFor.isEmpty()) {
                 switch (orderFor) {
                     case "delivery":
-                        if (db.getDefaultAddressPosition() != -1) {
+                        if (appDB.getDefaultAddressPosition() != -1) {
                             checkOrderAndCreateRequest();
                         } else {
                             myD.dismissLoadingDialog(100);
@@ -233,16 +217,16 @@ public class order_detail extends AppCompatActivity {
     private void checkOrderAndCreateRequest() {
 
 
-        AddressList userAddress = db.getDefaultAddress();
+        AddressList userAddress = appDB.getDefaultAddress();
 
-        StringRequest createOrderRequest = new StringRequest(Request.Method.POST, myLinks.CREATE_ORDER, response -> {
+        StringRequest createOrderRequest = new StringRequest(Request.Method.POST, Url.CREATE_ORDER, response -> {
             if (GlobalFunctions.isJSONValid(response)){
                 Gson gson = new Gson();
                 RequestResponse requestResponse = gson.fromJson(response, RequestResponse.class);
                 if (requestResponse.getResult().equals("success")) {
                     //payUsingUpi("New Pizza Num","9044982994@okbizaxis","Pay for order: 20120" ,"10");
 
-                    db.removeOrderList();
+                    appDB.removeOrderList();
                     OrderId = requestResponse.getOrderId();
                     payingPayment = requestResponse.getPayAmount();
 
@@ -275,16 +259,16 @@ public class order_detail extends AppCompatActivity {
 
                 params.put("orderFor", orderFor.toLowerCase());
                 params.put("orderFrom", "app");
-                params.put("orderProductList", db.getOrderListAsString());
-                params.put("userPrimaryMobile", db.getUserMobileNo());
-                params.put("userPrimaryName", db.getUserName());
+                params.put("orderProductList", appDB.getOrderListAsString());
+                params.put("userPrimaryMobile", appDB.getUserMobileNo());
+                params.put("userPrimaryName", appDB.getUserName());
                 if (!discountCoupon.equals("noCoupon")) {
                     params.put("discountApplied", "yes");
                     params.put("discountCoupon", discountCoupon);
                 } else {
                     params.put("discountApplied", "no");
                 }
-                if (db.isTaxApplied()) {
+                if (appDB.isTaxApplied()) {
                     params.put("taxApplied", "yes");
                 } else {
                     params.put("taxApplied", "no");
@@ -358,7 +342,7 @@ public class order_detail extends AppCompatActivity {
                 }
             }
             if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(order_detail.this, "Activity Closed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderDetailsActivity.this, "Activity Closed", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -368,7 +352,7 @@ public class order_detail extends AppCompatActivity {
                 showAddress();
             }
             if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(order_detail.this, "Activity Closed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderDetailsActivity.this, "Activity Closed", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -407,7 +391,7 @@ public class order_detail extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void setAmounts() {
-        total = String.valueOf((db.getBucketTotal() + db.getBucketTax() - gDiscount));
+        total = String.valueOf((appDB.getBucketTotal() + appDB.getBucketTax() - gDiscount));
         itemCount.setText(iCount);
         subTotal.setText("₹ " + sTotal);
         gst.setText("₹ " + Gst);
@@ -420,15 +404,15 @@ public class order_detail extends AppCompatActivity {
     private void showAddress() {
         EditComponents ed = new EditComponents(this);
 
-        if (db.getDefaultAddressPosition() != -1) {
+        if (appDB.getDefaultAddressPosition() != -1) {
 
-            AddressList address = db.getDefaultAddress();
+            AddressList address = appDB.getDefaultAddress();
 
-            if (db.getAddressList().size() == 1) {
+            if (appDB.getAddressList().size() == 1) {
                 ed.setButtonVisibility(R.id.changeAddress, View.VISIBLE);
                 ed.setButtonText(R.id.changeAddress, "Add");
             }
-            if (db.getAddressList().size() >= 2) {
+            if (appDB.getAddressList().size() >= 2) {
                 ed.setButtonVisibility(R.id.changeAddress, View.VISIBLE);
                 ed.setButtonText(R.id.changeAddress, "Change Address");
             }
@@ -439,8 +423,8 @@ public class order_detail extends AppCompatActivity {
             ed.setTextViewText(R.id.addressViewAddress, address.getFullAddress());
 
         } else {
-            if (db.getAddressList().size() == 1) {
-                db.changeDefaultAddress(0);
+            if (appDB.getAddressList().size() == 1) {
+                appDB.changeDefaultAddress(0);
                 showAddress();
             } else {
                 ed.setLinearLayoutVisibility(R.id.addressView, View.GONE);
@@ -454,7 +438,7 @@ public class order_detail extends AppCompatActivity {
     }
 
     public void addNewAddress(View view) {
-        Intent intent = new Intent(this, user_details_form.class);
+        Intent intent = new Intent(this, UserDetailsActivity.class);
         intent.putExtra("requestCode", 2);
         startActivityForResult(intent, 2);
     }
@@ -481,13 +465,13 @@ public class order_detail extends AppCompatActivity {
         if (null != chooser.resolveActivity(getPackageManager())) {
             startActivityForResult(chooser, UPI_PAYMENT);
         } else {
-            Toast.makeText(order_detail.this, "No UPI app found, please install one to continue", Toast.LENGTH_SHORT).show();
+            Toast.makeText(OrderDetailsActivity.this, "No UPI app found, please install one to continue", Toast.LENGTH_SHORT).show();
         }
     }
 
 
     private void upiPaymentDataOperation(ArrayList<String> data) {
-        if (isConnectionAvailable(order_detail.this)) {
+        if (isConnectionAvailable(OrderDetailsActivity.this)) {
             String str = data.get(0);
             //Log.e("UPIPAY", "upiPaymentDataOperation: " + str);
             String paymentCancel = "";
@@ -512,36 +496,36 @@ public class order_detail extends AppCompatActivity {
             }
             if (status.equals("success")) {
                 //Code to handle successful transaction here.
-                Toast.makeText(order_detail.this, "Transaction successful.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderDetailsActivity.this, "Transaction successful.", Toast.LENGTH_SHORT).show();
                 setOrderPayed(approvalRefNo);
                 //Log.e("UPI", "payment successfull: " + approvalRefNo);
             } else if ("Payment cancelled by user.".equals(paymentCancel)) {
-                Toast.makeText(order_detail.this, "Payment cancelled by user.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderDetailsActivity.this, "Payment cancelled by user.", Toast.LENGTH_SHORT).show();
                 //Log.e("UPI", "Cancelled by user: " + approvalRefNo);
             } else {
-                Toast.makeText(order_detail.this, "Transaction failed.Please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderDetailsActivity.this, "Transaction failed.Please try again", Toast.LENGTH_SHORT).show();
                 //Log.e("UPI", "failed payment: " + approvalRefNo);
             }
 
-            startActivity(new Intent(this, home.class));
+            startActivity(new Intent(this, HomeActivity.class));
         } else {
             Log.e("UPI", "Internet issue: ");
-            Toast.makeText(order_detail.this, "Internet connection is not available. Please check and try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(OrderDetailsActivity.this, "Internet connection is not available. Please check and try again", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setOrderPayed(String approvalRefNo) {
-        StringRequest changeStatusRequest = new StringRequest(Request.Method.POST, myLinks.CHANGE_ORDER_STATUS, response -> {
+        StringRequest changeStatusRequest = new StringRequest(Request.Method.POST, Url.CHANGE_ORDER_STATUS, response -> {
 
             if (response.trim().equals("success")) {
 
                 bsd.dismiss();
                 if(getIntent().getStringExtra("orderId")!=null){
                     Toast.makeText(this, "Payment Completed", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this,user_order.class));
+                    startActivity(new Intent(this, UserOrderActivity.class));
                 }else{
                     Toast.makeText(this, "Your Order Has Been Placed.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this,home.class));
+                    startActivity(new Intent(this, HomeActivity.class));
                 }
             }
         }, error -> {
@@ -591,7 +575,7 @@ public class order_detail extends AppCompatActivity {
             if(getIntent().getStringExtra("orderId")!=null){
                 Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
                 bsd.dismiss();
-                startActivity(new Intent(this,user_order.class));
+                startActivity(new Intent(this, UserOrderActivity.class));
             }else{
                 bsd.dismiss();
             }
@@ -644,10 +628,10 @@ public class order_detail extends AppCompatActivity {
     public void onBackPressed() {
         if(getIntent().getStringExtra("orderId")!=null){
             Toast.makeText(this, "Payment Completed", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this,user_order.class));
+            startActivity(new Intent(this, UserOrderActivity.class));
         }else{
             Toast.makeText(this, "Your Order Has Been Placed.", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this,home.class));
+            startActivity(new Intent(this, HomeActivity.class));
         }
     }
 }

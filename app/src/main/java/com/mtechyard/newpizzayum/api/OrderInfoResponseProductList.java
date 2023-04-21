@@ -1,4 +1,4 @@
-package com.mtechyard.newpizzayum.server;
+package com.mtechyard.newpizzayum.api;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

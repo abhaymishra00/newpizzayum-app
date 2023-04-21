@@ -1,146 +1,53 @@
-package com.mtechyard.newpizzayum.project_rec;
+package com.mtechyard.newpizzayum.app_src;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.mtechyard.newpizzayum.home;
+import com.mtechyard.newpizzayum.HomeActivity;
+import com.mtechyard.newpizzayum.api.AddressList;
+import com.mtechyard.newpizzayum.api.UserOrderList;
+import com.mtechyard.newpizzayum.app.TinyDB;
 
 import java.util.ArrayList;
 import java.util.List;
 
+public class AppDB extends TinyDB {
 
-public class TinyDB extends Application {
-
-    //Store Data
-    @SuppressLint("StaticFieldLeak")
-    public static Context myContext;
-
-
-    public TinyDB(Context context) {
-        myContext = context;
+    public AppDB(Context context) {
+        super(context);
     }
-
-    public void StoreString(String Tag, String Value) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        SharedPreferences.Editor Store = Store1.edit();
-        Store.putString(Tag, Value);
-        Store.apply();
-
-    }
-
-    public static void StoreInt(String Tag, int Value) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        SharedPreferences.Editor Store = Store1.edit();
-        Store.putInt(Tag, Value);
-        Store.apply();
-
-    }
-
-    public static void StoreFloat(String Tag, float Value) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        SharedPreferences.Editor Store = Store1.edit();
-        Store.putFloat(Tag, Value);
-        Store.apply();
-
-    }
-
-    public void StoreBoolean(String Tag, boolean Value) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        SharedPreferences.Editor Store = Store1.edit();
-        Store.putBoolean(Tag, Value);
-        Store.apply();
-    }
-
-    public static void StoreLong(String Tag, long Value) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        SharedPreferences.Editor Store = Store1.edit();
-        Store.putLong(Tag, Value);
-        Store.apply();
-
-    }
-
-    //Get Data
-    public static int GetInt(String Tag, int DefValue) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        return Store1.getInt(Tag, DefValue);
-    }
-
-    public static String GetString(String Tag, String DefValue) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        return Store1.getString(Tag, DefValue);
-    }
-
-    public static float GetFloat(String Tag, float DefValue) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        return Store1.getFloat(Tag, DefValue);
-    }
-
-    public boolean GetBoolean(String Tag, boolean DefValue) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        return Store1.getBoolean(Tag, DefValue);
-    }
-
-    public static long GetLong(String Tag, long DefValue) {
-
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        return Store1.getLong(Tag, DefValue);
-    }
-
-    //Clare Data
-    public void ClearDB1() {
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        SharedPreferences.Editor Store = Store1.edit();
-        Store.clear();
-        Store.apply();
-    }
-
 
     public String getUserMobileNo() {
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        return Store1.getString("userMobileNo", " ");
-
+        return get("userMobileNo", " ");
     }
 
     public String getUserName() {
-        SharedPreferences Store1 = myContext.getSharedPreferences("DB1", Context.MODE_PRIVATE);
-        return Store1.getString("userName", " ");
-
+        return get("userName", " ");
     }
 
     public void saveUserMobileNo(String MobileNo) {
-        StoreString("userMobileNo", MobileNo);
+        save("userMobileNo", MobileNo);
     }
 
     public void saveUserName(String Name) {
-        StoreString("userName", Name);
+        save("userName", Name);
     }
 
     public String getUserLocality() {
-        return GetString("locality", "");
+        return get("locality", "");
     }
 
     public void saveUserLocality(String Locality) {
-        StoreString("locality", Locality);
+        save("locality", Locality);
     }
 
     public void setBucketItemCount(int Count) {
-        StoreInt("userBucketCount", Count);
+        save("userBucketCount", Count);
     }
 
     public int getBucketItemCount() {
-        return GetInt("userBucketCount", 0);
+        return get("userBucketCount", 0);
     }
 
     public int getBucketTotal() {
@@ -178,13 +85,13 @@ public class TinyDB extends Application {
 
     public void addInBucket(UserOrderList newOrderItem) {
 
-        StoreInt("userBucketCount", getBucketItemCount() + 1);
+        save("userBucketCount", getBucketItemCount() + 1);
 
         List<UserOrderList> o = getOrderList();
         o.add(newOrderItem);
         Gson gson = new Gson();
         String newOrderListString = gson.toJson(o, ArrayList.class);
-        StoreString("UserOrderList", newOrderListString);
+        save("UserOrderList", newOrderListString);
 
     }
 
@@ -192,12 +99,12 @@ public class TinyDB extends Application {
     public void removeFromBucket(int position) {
         List<UserOrderList> list = getOrderList();
 
-        StoreInt("userBucketCount", getBucketItemCount() - 1);
-        home.changeBucketCountInUi();
+        save("userBucketCount", getBucketItemCount() - 1);
+        HomeActivity.changeBucketCountInUi();
         list.remove(position);
         Gson gson = new Gson();
         String newOrderListString = gson.toJson(list, ArrayList.class);
-        StoreString("UserOrderList", newOrderListString);
+        save("UserOrderList", newOrderListString);
     }
 
     public void addQuantity(int position) {
@@ -228,7 +135,7 @@ public class TinyDB extends Application {
         list.set(position, l);
         Gson gson = new Gson();
         String newOrderListString = gson.toJson(list, ArrayList.class);
-        StoreString("UserOrderList", newOrderListString);
+        save("UserOrderList", newOrderListString);
 
     }
 
@@ -263,7 +170,7 @@ public class TinyDB extends Application {
         list.set(position, l);
         Gson gson = new Gson();
         String newOrderListString = gson.toJson(list, ArrayList.class);
-        StoreString("UserOrderList", newOrderListString);
+        save("UserOrderList", newOrderListString);
 
 
     }
@@ -344,7 +251,7 @@ public class TinyDB extends Application {
         Gson gson = new Gson();
         addressList.add(addressObject);
         String newAddressList = gson.toJson(addressList, ArrayList.class);
-        StoreString("UserAddressList", newAddressList);
+        save("UserAddressList", newAddressList);
     }
 
     public int getDefaultAddressPosition() {
@@ -407,7 +314,7 @@ public class TinyDB extends Application {
             }
 
             String newAddressList = gson.toJson(addressList, ArrayList.class);
-            StoreString("UserAddressList", newAddressList);
+            save("UserAddressList", newAddressList);
 
         }
 
@@ -434,23 +341,17 @@ public class TinyDB extends Application {
             }
         }
         String newAddressList = gson.toJson(addressList, ArrayList.class);
-        StoreString("UserAddressList", newAddressList);
+        save("UserAddressList", newAddressList);
 
     }
-
 
     public boolean isTaxApplied() {
         return GetBoolean("taxApplied",false);
     }
 
     public void removeOrderList() {
-        StoreString("UserOrderList", "");
-        StoreInt("userBucketCount", 0);
-        home.changeBucketCountInUi();
+        save("UserOrderList", "");
+        save("userBucketCount", 0);
+        HomeActivity.changeBucketCountInUi();
     }
 }
-
-
-
-
-

@@ -1,4 +1,4 @@
-package com.mtechyard.newpizzayum.project_rec;
+package com.mtechyard.newpizzayum.api;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

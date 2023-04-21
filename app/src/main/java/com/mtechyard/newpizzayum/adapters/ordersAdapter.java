@@ -2,22 +2,18 @@ package com.mtechyard.newpizzayum.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mtechyard.newpizzayum.OrderReview;
 import com.mtechyard.newpizzayum.R;
-import com.mtechyard.newpizzayum.project_rec.UserOrderData;
-import com.mtechyard.newpizzayum.user_order;
+import com.mtechyard.newpizzayum.api.UserOrderData;
 import com.squareup.picasso.Picasso;
 
 public class ordersAdapter extends RecyclerView.Adapter<ordersAdapter.userOrderView> {
@@ -98,7 +94,7 @@ public class ordersAdapter extends RecyclerView.Adapter<ordersAdapter.userOrderV
 
         holder.itemView.setOnClickListener(v -> {
             if (d.getStatusMessage().equals("Pending For Payment")){
-                //user_order.showPayment(d.getOrderId(),String.valueOf(d.getOrderRate()));
+                //UserOrderActivity.showPayment(d.getOrderId(),String.valueOf(d.getOrderRate()));
             }else{
                 //context.startActivity(new Intent(context, OrderReview.class).putExtra("orderId",d.getOrderId()));
             }

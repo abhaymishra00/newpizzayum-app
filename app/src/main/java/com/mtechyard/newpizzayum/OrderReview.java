@@ -3,27 +3,12 @@ package com.mtechyard.newpizzayum;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.mtechyard.newpizzayum.project_rec.GlobalFunctions;
-import com.mtechyard.newpizzayum.project_rec.MyDialog;
-import com.mtechyard.newpizzayum.server.OrderInfoResponse;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.mtechyard.newpizzayum.app.MyDialog;
 
 public class OrderReview extends AppCompatActivity {
 

@@ -6,14 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mtechyard.newpizzayum.HomeActivity;
 import com.mtechyard.newpizzayum.R;
-import com.mtechyard.newpizzayum.home;
-import com.mtechyard.newpizzayum.project_rec.GlobalFunctions;
 
 public class homeMenuAdapter extends RecyclerView.Adapter<homeMenuAdapter.home_menu_view_holder> {
 
@@ -42,7 +40,7 @@ public class homeMenuAdapter extends RecyclerView.Adapter<homeMenuAdapter.home_m
          holder.menuText.setText(menuName[position]);
 
          holder.itemView.setOnClickListener(v -> {
-             home.setMenu(menuName[position].toLowerCase());
+             HomeActivity.setMenu(menuName[position].toLowerCase());
              //Toast.makeText(context, menuName[position].toLowerCase(), Toast.LENGTH_SHORT).show();
          });
 
